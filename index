@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wahlrecht ab 16 – Mein Urteil</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:   #F8F5F0;
+    --white:   #FFFFFF;
+    --ink:     #1A1714;
+    --mid:     #4A4540;
+    --soft:    #8A837A;
+    --border:  #DDD8D0;
+    --border2: #C8C2BA;
+    --pro:     #1E5C3A;
+    --pro-bg:  #EAF5EF;
+    --con:     #7A1F1F;
+    --con-bg:  #FAF0EF;
+    --accent:  #2D5A8E;
+    --serif:   'Lora', Georgia, serif;
+    --sans:    'Source Sans 3', system-ui, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-title {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .nav-sub {
+    font-size: 0.78rem;
+    color: var(--soft);
+    margin-left: 0.6rem;
+  }
+
+  .progress-dots {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border2);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .dot.active { background: var(--accent); }
+  .dot.done   { background: var(--pro); }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; animation: fadeIn 0.3s ease; }
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TYPO ── */
+  .eyebrow {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--soft);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+
+  h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--mid);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+
+  p { color: var(--mid); margin-bottom: 0.8rem; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem;
+    margin-bottom: 1rem;
+  }
+  .card-pro  { border-left: 4px solid var(--pro); }
+  .card-con  { border-left: 4px solid var(--con); }
+  .card-info { border-left: 4px solid var(--accent); background: #F5F8FC; }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.18rem 0.55rem;
+    border-radius: 20px;
+    margin-bottom: 0.6rem;
+  }
+  .tag-pro { background: var(--pro-bg); color: var(--pro); }
+  .tag-con { background: var(--con-bg); color: var(--con); }
+  .tag-info{ background: #E8F0FA; color: var(--accent); }
+  .tag-a   { background: #E8F0FA; color: var(--accent); }
+
+  /* ── ARG LIST ── */
+  .arg-list { list-style: none; margin-top: 0.5rem; }
+  .arg-list li {
+    display: flex;
+    gap: 0.7rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.93rem;
+    color: var(--mid);
+    line-height: 1.5;
+  }
+  .arg-list li:last-child { border-bottom: none; }
+  .arg-bullet {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 0.55rem;
+  }
+  .pro .arg-bullet { background: var(--pro); }
+  .con .arg-bullet { background: var(--con); }
+
+  /* ── LEVEL TABS ── */
+  .level-tabs {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0;
+  }
+  .ltab {
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.45rem 0.8rem;
+    border-radius: 6px 6px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    background: var(--cream);
+    color: var(--soft);
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: -1px;
+  }
+  .ltab.active {
+    background: var(--white);
+    color: var(--ink);
+    border-color: var(--border2);
+    border-bottom: 1px solid var(--white);
+  }
+
+  .level-content { display: none; }
+  .level-content.active { display: block; }
+
+  /* ── AUFGABEN ── */
+  .aufgabe {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 0.7rem;
+  }
+  .aufgabe-header {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    padding: 0.9rem 1rem;
+    background: #FAFAF8;
+    border-bottom: 1px solid var(--border);
+  }
+  .aufgabe-nr {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    font-family: monospace;
+    flex-shrink: 0;
+    padding-top: 0.1rem;
+  }
+  .aufgabe-text {
+    font-size: 0.93rem;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .aufgabe-input {
+    padding: 0.8rem 1rem;
+  }
+  textarea {
+    width: 100%;
+    min-height: 90px;
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 0.65rem 0.8rem;
+    font-family: var(--sans);
+    font-size: 0.93rem;
+    color: var(--ink);
+    background: var(--white);
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+    line-height: 1.5;
+  }
+  textarea:focus { border-color: var(--accent); }
+
+  /* ── POSITION WAHL ── */
+  .position-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+    margin: 1rem 0;
+  }
+  .pos-btn {
+    padding: 1.1rem;
+    border-radius: 8px;
+    border: 2px solid var(--border2);
+    background: var(--white);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    font-family: var(--sans);
+  }
+  .pos-btn:hover { transform: translateY(-1px); }
+  .pos-btn .pos-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .pos-btn .pos-sub {
+    font-size: 0.8rem;
+    color: var(--soft);
+  }
+  .pos-btn.selected-pro {
+    border-color: var(--pro);
+    background: var(--pro-bg);
+  }
+  .pos-btn.selected-pro .pos-label { color: var(--pro); }
+  .pos-btn.selected-con {
+    border-color: var(--con);
+    background: var(--con-bg);
+  }
+  .pos-btn.selected-con .pos-label { color: var(--con); }
+
+  /* ── SATZRAHMEN ── */
+  .satzrahmen {
+    border-left: 3px solid var(--pro);
+    background: var(--pro-bg);
+    padding: 0.9rem 1rem;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 1rem;
+  }
+  .satz-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--pro);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .satz-item {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: var(--mid);
+    margin-bottom: 0.3rem;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .satz-item:hover { color: var(--pro); }
+  .satz-item:last-child { margin-bottom: 0; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--white);
+  }
+  .btn-primary:hover { background: #1E4A7A; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--mid);
+    border: 1px solid var(--border2);
+  }
+  .btn-ghost:hover { background: var(--white); color: var(--ink); }
+  .btn-submit {
+    background: var(--pro);
+    color: var(--white);
+    width: 100%;
+    justify-content: center;
+    padding: 0.9rem;
+    font-size: 1rem;
+  }
+  .btn-submit:hover { background: #164D2E; }
+
+  .btn-row {
+    display: flex;
+    gap: 0.7rem;
+    margin-top: 1.5rem;
+    align-items: center;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.5rem 0;
+  }
+
+  /* ── SUCCESS ── */
+  .success-icon {
+    width: 64px; height: 64px;
+    background: var(--pro-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin: 0 auto 1.5rem;
+  }
+  .success-screen { text-align: center; padding: 2rem 0; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 500px) {
+    .position-grid { grid-template-columns: 1fr; }
+    main { padding: 1.5rem 1rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="display:flex;align-items:center">
+    <span class="nav-title">Wahlrecht ab 16</span>
+    <span class="nav-sub">WiPo · Klasse 9</span>
+  </div>
+  <div class="progress-dots">
+    <div class="dot active" id="d0" onclick="goTo(0)" title="Einführung"></div>
+    <div class="dot" id="d1" onclick="goTo(1)" title="PRO-Argumente"></div>
+    <div class="dot" id="d2" onclick="goTo(2)" title="CONTRA-Argumente"></div>
+    <div class="dot" id="d3" onclick="goTo(3)" title="Dein Urteil"></div>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ── SCREEN 0: Einführung ── -->
+  <div class="screen active" id="s0">
+    <div class="eyebrow">Stunde 7 · Die Entscheidung</div>
+    <h1>Sollten 16-Jährige <em>wählen</em> dürfen?</h1>
+    <p style="font-size:1.05rem;color:var(--mid);margin-bottom:1.5rem">
+      Du hast in dieser Reihe viele Argumente, Daten und Beispiele kennengelernt. Jetzt ist es Zeit für dein eigenes, begründetes Urteil.
+    </p>
+
+    <div class="card card-info">
+      <span class="tag tag-info">So gehst du vor</span>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-top:.3rem">
+        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.93rem;color:var(--mid)">
+          <span style="font-weight:700;color:var(--accent);font-family:monospace;flex-shrink:0">1</span>
+          Lies die PRO- und CONTRA-Argumente durch. Markiere die zwei, die du am stärksten findest.
+        </li>
+        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.93rem;color:var(--mid)">
+          <span style="font-weight:700;color:var(--accent);font-family:monospace;flex-shrink:0">2</span>
+          Wähle eine Aufgabe passend zu deinem Niveau.
+        </li>
+        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.93rem;color:var(--mid)">
+          <span style="font-weight:700;color:var(--accent);font-family:monospace;flex-shrink:0">3</span>
+          Formuliere dein Urteil – mit Begründung und einem Gegenargument.
+        </li>
+        <li style="display:flex;gap:.7rem;align-items:flex-start;font-size:.93rem;color:var(--mid)">
+          <span style="font-weight:700;color:var(--accent);font-family:monospace;flex-shrink:0">4</span>
+          Melde dich bei deiner Lehrerin / deinem Lehrer, wenn du fertig bist.
+        </li>
+      </ul>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="goTo(1)">Los geht's →</button>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 1: PRO ── -->
+  <div class="screen" id="s1">
+    <div class="eyebrow">Schritt 1 von 3 · Argumente lesen</div>
+    <h2>PRO – Für das Wahlrecht ab 16</h2>
+    <p style="font-size:.9rem;margin-bottom:1rem">Lies die Argumente. Welche findest du am überzeugendsten?</p>
+
+    <div class="card card-pro pro">
+      <span class="tag tag-pro">Gruppe A · Demokratische Teilhabe</span>
+      <ul class="arg-list">
+        <li><span class="arg-bullet"></span>Mit 16 darf man heiraten, Steuern zahlen, ein Unternehmen gründen – aber nicht wählen. Das ist ungerecht.</li>
+        <li><span class="arg-bullet"></span>Österreich hat das Wahlrecht ab 16 seit 2007. Studien zeigen: Jugendliche wählen dort ähnlich häufig wie Erwachsene.</li>
+        <li><span class="arg-bullet"></span>Entscheidungen über Klimapolitik, Rente und Bildung treffen vor allem Jugendliche. Sie sollten mitentscheiden dürfen.</li>
+        <li><span class="arg-bullet"></span>Wer früh wählt, bleibt politisch aktiver. Das Wahlrecht ab 16 ist eine Investition in die Demokratie.</li>
+      </ul>
+    </div>
+
+    <div class="card card-pro pro">
+      <span class="tag tag-pro">Gruppe B · Jugendinteressen schützen</span>
+      <ul class="arg-list">
+        <li><span class="arg-bullet"></span>Parteien richten ihre Programme an Wählergruppen aus. Wer nicht wählt, wird nicht gehört.</li>
+        <li><span class="arg-bullet"></span>Nur 14 % der Bundestagsabgeordneten sind unter 35 – Jugendliche sind massiv unterrepräsentiert.</li>
+        <li><span class="arg-bullet"></span>Populisten sprechen Jugendliche auf TikTok an, weil niemand sonst es tut. Das Wahlrecht wäre ein Gegenmittel.</li>
+        <li><span class="arg-bullet"></span>Klimaprotest und Schülerstreiks zeigen: Jugendliche wollen mitgestalten. Das Wahlrecht gibt ihnen einen legalen Kanal.</li>
+      </ul>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goTo(0)">← Zurück</button>
+      <button class="btn btn-primary" onclick="goTo(2)">Weiter zu CONTRA →</button>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 2: CONTRA ── -->
+  <div class="screen" id="s2">
+    <div class="eyebrow">Schritt 2 von 3 · Argumente lesen</div>
+    <h2>CONTRA – Gegen das Wahlrecht ab 16</h2>
+    <p style="font-size:.9rem;margin-bottom:1rem">Lies die Argumente. Welche findest du am überzeugendsten?</p>
+
+    <div class="card card-con con">
+      <span class="tag tag-con">Gruppe C · Reife und Verantwortung</span>
+      <ul class="arg-list">
+        <li><span class="arg-bullet"></span>Mit 18 beginnt die volle Geschäftsfähigkeit und strafrechtliche Verantwortung. Wahlrecht und Verantwortung sollten zusammenpassen.</li>
+        <li><span class="arg-bullet"></span>Jugendliche unter 18 leben meist noch bei den Eltern – ihre Wahlentscheidung könnte stark durch das Elternhaus geprägt sein.</li>
+        <li><span class="arg-bullet"></span>Politisches Urteilsvermögen braucht Lebenserfahrung – das ist keine Frage des Willens, sondern der Entwicklung.</li>
+        <li><span class="arg-bullet"></span>In Deutschland gilt das Wahlrecht ab 16 bereits bei Kommunalwahlen. Der Effekt auf die Beteiligung ist bisher gering.</li>
+      </ul>
+    </div>
+
+    <div class="card card-con con">
+      <span class="tag tag-con">Gruppe D · Populismus-Anfälligkeit</span>
+      <ul class="arg-list">
+        <li><span class="arg-bullet"></span>Jugendliche verbringen mehr Zeit auf TikTok als mit seriösen Nachrichtenquellen. Algorithmen beeinflussen ihre Meinung stark.</li>
+        <li><span class="arg-bullet"></span>Populisten wie die AfD erreichen Jugendliche gezielt über Social Media. Mehr junge Wähler könnten Populismus stärken.</li>
+        <li><span class="arg-bullet"></span>Das Gehirn ist mit 16 noch in der Entwicklung – besonders der Teil für langfristiges Abwägen.</li>
+        <li><span class="arg-bullet"></span>Emotionale, einfache Botschaften wirken bei Jugendlichen stärker – genau das nutzen Populisten aus.</li>
+      </ul>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="goTo(1)">← Zurück</button>
+      <button class="btn btn-primary" onclick="goTo(3)">Zu meinem Urteil →</button>
+    </div>
+  </div>
+
+  <!-- ── SCREEN 3: Urteil ── -->
+  <div class="screen" id="s3">
+    <div class="eyebrow">Schritt 3 von 3 · Dein Urteil</div>
+    <h2>Schreibe dein Urteil</h2>
+
+
+
+    <!-- Position -->
+    <div class="aufgabe" style="margin-bottom:1.2rem">
+      <div class="aufgabe-header">
+        <span class="aufgabe-nr">②</span>
+        <span class="aufgabe-text">Deine Position – wähle eine aus:</span>
+      </div>
+      <div class="aufgabe-input">
+        <div class="position-grid">
+          <button class="pos-btn" id="btn-ja" onclick="selectPos('ja')">
+            <span class="pos-label" style="color:var(--pro)">JA</span>
+            <span class="pos-sub">Ich bin für das Wahlrecht ab 16.</span>
+          </button>
+          <button class="pos-btn" id="btn-nein" onclick="selectPos('nein')">
+            <span class="pos-label" style="color:var(--con)">NEIN</span>
+            <span class="pos-sub">Ich bin gegen das Wahlrecht ab 16.</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Niveau-Tabs -->
+    <h3 style="margin-bottom:.7rem">Aufgabe – wähle dein Niveau:</h3>
+    <div class="level-tabs">
+      <div class="ltab active" onclick="switchLevel('standard')">Standard</div>
+      <div class="ltab" onclick="switchLevel('erweiterung')">Erweiterung</div>
+      <div class="ltab" onclick="switchLevel('sprinter')">🏃 Sprinter</div>
+    </div>
+
+    <!-- Standard -->
+    <div class="level-content active" id="lc-standard">
+      <div class="aufgabe">
+        <div class="aufgabe-header">
+          <span class="aufgabe-nr">①</span>
+          <span class="aufgabe-text">Formuliere dein Urteil: Nenne mindestens zwei Argumente aus den Argumente und erkläre sie.</span>
+        </div>
+        <div class="aufgabe-input">
+          <div style="background:var(--cream);border:1px dashed var(--border2);border-radius:6px;padding:.75rem 1rem;color:var(--soft);font-size:.88rem;font-style:italic;display:flex;align-items:center;gap:.5rem">
+          <span style="font-size:1.1rem">✏️</span> Schreibe deine Antwort ins Heft.
+        </div>
+        </div>
+      </div>
+      <div class="aufgabe">
+        <div class="aufgabe-header">
+          <span class="aufgabe-nr">②</span>
+          <span class="aufgabe-text">Nenne ein Gegenargument der anderen Seite und erkläre, warum du trotzdem bei deiner Position bleibst.</span>
+        </div>
+        <div class="aufgabe-input">
+          <div style="background:var(--cream);border:1px dashed var(--border2);border-radius:6px;padding:.75rem 1rem;color:var(--soft);font-size:.88rem;font-style:italic;display:flex;align-items:center;gap:.5rem">
+          <span style="font-size:1.1rem">✏️</span> Schreibe deine Antwort ins Heft.
+        </div>
+        </div>
+      </div>
+      <div class="satzrahmen">
+        <div class="satz-title">Satzrahmen</div>
+        <div class="satz-item">„Ich bin der Meinung, dass … weil … Ein überzeugendes Argument ist, dass …"</div>
+        <div class="satz-item">„Die Gegenseite argumentiert, dass … Ich halte dem entgegen, dass …"</div>
+        <div class="satz-item">„Insgesamt komme ich zu dem Urteil, dass … weil …"</div>
+      </div>
+    </div>
+
+    <!-- Erweiterung -->
+    <div class="level-content" id="lc-erweiterung">
+      <div class="aufgabe">
+        <div class="aufgabe-header">
+          <span class="aufgabe-nr">①</span>
+          <span class="aufgabe-text">Formuliere ein vollständiges, begründetes Urteil: Position, mindestens zwei Argumente, ein Gegenargument mit Erwiderung, Schlusssatz.</span>
+        </div>
+        <div class="aufgabe-input">
+          <div style="background:var(--cream);border:1px dashed var(--border2);border-radius:6px;padding:.75rem 1rem;color:var(--soft);font-size:.88rem;font-style:italic;display:flex;align-items:center;gap:.5rem">
+          <span style="font-size:1.1rem">✏️</span> Schreibe deine Antwort ins Heft.
+        </div>
+        </div>
+      </div>
+      <div class="aufgabe">
+        <div class="aufgabe-header">
+          <span class="aufgabe-nr">②</span>
+          <span class="aufgabe-text">Reflexion: Verbinde dein Urteil mit einem konkreten Beispiel aus der Reihe (z. B. TikTok-Algorithmus, Populismus, Wahlmüdigkeit).</span>
+        </div>
+        <div class="aufgabe-input">
+          <div style="background:var(--cream);border:1px dashed var(--border2);border-radius:6px;padding:.75rem 1rem;color:var(--soft);font-size:.88rem;font-style:italic;display:flex;align-items:center;gap:.5rem">
+          <span style="font-size:1.1rem">✏️</span> Schreibe deine Antwort ins Heft.
+        </div>
+        </div>
+      </div>
+      <div class="satzrahmen">
+        <div class="satz-title">Satzrahmen</div>
+        <div class="satz-item">„Ich vertrete die Position, dass … Dies lässt sich damit begründen, dass …"</div>
+        <div class="satz-item">„Zwar argumentiert die Gegenseite, dass … Jedoch …"</div>
+        <div class="satz-item">„Abschließend lässt sich festhalten, dass … weil …"</div>
+      </div>
+    </div>
+
+
+    <!-- Sprinter -->
+    <div class="level-content" id="lc-sprinter">
+      <div class="aufgabe">
+        <div class="aufgabe-header">
+          <span class="aufgabe-nr">🏃</span>
+          <span class="aufgabe-text">Überlege: Welche strukturellen Veränderungen bräuchte es zusätzlich zum Wahlrecht ab 16, damit Jugendliche wirklich mehr politischen Einfluss bekommen? Nenne zwei konkrete Vorschläge und begründe sie.</span>
+        </div>
+        <div class="aufgabe-input">
+          <div style="background:var(--cream);border:1px dashed var(--border2);border-radius:6px;padding:.75rem 1rem;color:var(--soft);font-size:.88rem;font-style:italic;display:flex;align-items:center;gap:.5rem">
+            <span style="font-size:1.1rem">✏️</span> Schreibe deine Antwort ins Heft.
+          </div>
+        </div>
+      </div>
+      <div class="satzrahmen">
+        <div class="satz-title">Satzrahmen</div>
+        <div class="satz-item">„Ich vertrete die Position, dass … Dies lässt sich damit begründen, dass …"</div>
+        <div class="satz-item">„Zwar argumentiert die Gegenseite, dass … Jedoch …"</div>
+        <div class="satz-item">„Ein konkretes Beispiel aus der Reihe ist …, was zeigt, dass …"</div>
+        <div class="satz-item">„Abschließend lässt sich festhalten, dass … weil …"</div>
+        <div class="satz-item" style="margin-top:.5rem;color:var(--accent);font-style:normal;font-weight:600">Sprinter: „Das Wahlrecht allein reicht nicht, weil … Zusätzlich bräuchte es …"</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="card card-info" style="text-align:center;padding:1.2rem">
+      <span style="font-size:1.3rem">✋</span>
+      <p style="margin-top:.4rem;margin-bottom:0;font-weight:600;color:var(--ink)">Fertig? Melde dich bei deiner Lehrerin / deinem Lehrer.</p>
+    </div>
+
+    <div class="btn-row" style="margin-top:.5rem">
+      <button class="btn btn-ghost" onclick="goTo(2)">← Zurück</button>
+    </div>
+  </div>
+
+
+
+</main>
+
+<script>
+  let currentScreen = 0;
+  let selectedPos = null;
+  let currentLevel = 'standard';
+
+  function goTo(n) {
+    document.querySelectorAll('.screen').forEach((s,i) => {
+      s.classList.toggle('active', i === n);
+    });
+    document.querySelectorAll('.dot').forEach((d,i) => {
+      d.classList.remove('active','done');
+      if (i === n) d.classList.add('active');
+      else if (i < n) d.classList.add('done');
+    });
+    currentScreen = n;
+    window.scrollTo(0,0);
+  }
+
+  function selectPos(pos) {
+    selectedPos = pos;
+    document.getElementById('btn-ja').className   = 'pos-btn' + (pos==='ja'   ? ' selected-pro' : '');
+    document.getElementById('btn-nein').className = 'pos-btn' + (pos==='nein' ? ' selected-con' : '');
+  }
+
+  function switchLevel(level) {
+    currentLevel = level;
+    document.querySelectorAll('.ltab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.level-content').forEach(c => c.classList.remove('active'));
+    const tabs = document.querySelectorAll('.ltab');
+    const map = { standard:0, erweiterung:1, sprinter:2 };
+    if (map[level] !== undefined) tabs[map[level]].classList.add('active');
+    const el = document.getElementById('lc-' + level);
+    if (el) el.classList.add('active');
+  }
+
+
+
+
+
+
+</script>
+</body>
+</html>
